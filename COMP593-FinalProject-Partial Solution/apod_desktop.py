@@ -74,7 +74,7 @@ def get_apod_date():
             sys.exit('Script execution aborted')
     else:
         today = date.today()
-        apod_date = today.fromisoformat()
+        apod_date = today.isoformat()
     
     return apod_date
 

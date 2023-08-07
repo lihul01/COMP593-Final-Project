@@ -268,16 +268,21 @@ def get_apod_info(image_id):
     # Query DB for image info
     db_cxn = sqlite3.connect(image_cache_db)
     db_cursor = db_cxn.cursor()
-    image_path_query = """
+    image_path_query = f"""
         SELECT file_path
-        FROM image_data;
+        FROM image_data
+        WHERE id = {image_id};
     """
     db_cursor.execute(image_path_query)
     query_result = db_cursor.fetchone()
     db_cxn.close()
 
     # Put information into a dictionary
-    apod_info = 
+    apod_info = {
+        'title': f'{query_result[1]}',
+        'explanation' : f'{query_result[2]}',
+        'file_path' : f'{query_result[3]}'
+    }
 
     return apod_info
 

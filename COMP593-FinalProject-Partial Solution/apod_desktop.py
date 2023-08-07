@@ -192,9 +192,12 @@ def get_apod_id_from_db(image_sha256):
     db_cursor = db_cxn.cursor()
 
     # Query DB for image with same hash value as image in response message
-    #db_cursor.execute("SELECT id FROM image_data WHERE sha256='" + image_sha256.upper() + "'")
-    #db_cursor.execute("SELECT id FROM image_data WHERE sha256=?;", [image_sha256.upper()])
-    db_cursor.execute("SELECT id FROM image_data WHERE sha256=?;", (image_sha256.upper(),))
+    image_query = f"""
+        SELECT id,
+        FROM image_data
+        WHERE sha256 = {image_cache_db.upper()};
+    """
+    db_cursor.execute(image_query)
     query_results = db_cursor.fetchone()
     db_cxn.close()
 

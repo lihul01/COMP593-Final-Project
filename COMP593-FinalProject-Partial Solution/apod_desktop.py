@@ -266,16 +266,18 @@ def get_apod_info(image_id):
         (Dictionary keys: 'title', 'explanation', 'file_path')
     """
     # Query DB for image info
-    #Add line one here
-    # Add line two here
-    image_path_query = # add appropriate query_result
-    
+    db_cxn = sqlite3.connect(image_cache_db)
+    db_cursor = db_cxn.cursor()
+    image_path_query = """
+        SELECT file_path
+        FROM image_data;
+    """
     db_cursor.execute(image_path_query)
     query_result = db_cursor.fetchone()
     db_cxn.close()
 
     # Put information into a dictionary
-    #Fill this out
+    apod_info = 
 
     return apod_info
 
@@ -285,10 +287,13 @@ def get_all_apod_titles():
     Returns:
         list: Titles of all images in the cache
     """
-    db_cxn = # Complete this
+    db_cxn = sqlite3.connect(image_cache_db)
     
     db_cursor = db_cxn.cursor()
-    image_titles_query = # Complete this
+    image_titles_query = """
+        SELECT title,
+        FROM image_data;
+    """
     db_cursor.execute(image_titles_query)
     image_titles = db_cursor.fetchall()
     db_cxn.close()

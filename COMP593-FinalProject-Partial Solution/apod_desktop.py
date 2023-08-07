@@ -80,8 +80,8 @@ def get_apod_date():
 
 def init_apod_cache():
     # Creates the image cache directory if it does not already exist
-    if not image_cache_dir.exists():
-        os.makedirs(image_cache_dir, exist_ok=True)
+    if not os.path.isdir(image_cache_dir):
+        os.makedirs(image_cache_dir)
 
     # Create the DB if it does not already exist
     db_cxn = sqlite3.connect(image_cache_db)

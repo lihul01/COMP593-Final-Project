@@ -88,7 +88,7 @@ def init_apod_cache():
     cur = con.cursor()
 
     create_images_tbl_query = """
-        CREATE TABLE IF NOT EXISTS images
+        CREATE TABLE IF NOT EXISTS image_data
         (
             primary_key INTEGER PRIMARY KEY,
             APOD_title  TEXT NOT NULL,

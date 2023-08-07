@@ -127,7 +127,6 @@ def add_apod_to_cache(apod_date):
     print("APOD title:", apod_title)
 
     # Download the APOD image
-    # TODO: four lines of code expected here
     apod_url = apod_info['url']
     apod_image_data = requests.get(apod_url)
 

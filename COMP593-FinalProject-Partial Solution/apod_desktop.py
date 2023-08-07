@@ -111,7 +111,7 @@ def add_apod_to_cache(apod_date):
     print("APOD title:", apod_title)
 
     # Download the APOD image
-   # four lines of code expected here
+    # four lines of code expected here
 
     # Check whether the APOD already exists in the image cache
     apod_sha256 = hashlib.sha256(apod_image_data).hexdigest()

@@ -25,7 +25,7 @@ import sys
 # - The image cache database is a sqlite database located in the image cache directory.
 script_dir = os.path.dirname(os.path.abspath(__file__))
 image_cache_dir = os.path.join(script_dir, 'ImageCacheDir')
-image_cache_db = os.path.join(image_cache_dir, '')
+image_cache_db = os.path.join(image_cache_dir, 'NASA.db')
 
 def main():
     # Get the APOD date from the command line
@@ -87,8 +87,25 @@ def init_apod_cache():
 
     # Create the DB if it does not already exist
     #Complete this with the correct instructions
-    if not os.path.exists(image_cache_dir) and not os.path.isdir(image_cache_dir):
-        
+    con = sqlite3.connect('NASA.db')
+
+    cur = con.cursor()
+
+    create_images_tbl_query = """
+        CREATE TABLE IF NOT EXISTS images
+        (
+            primary_key INTEGER PRIMARY KEY,
+            APOD_title  TEXT NOT NULL,
+            APOD_expl   TEXT NOT NULL,
+            PATH        TEXT NOT NULL,
+            HASH        TEXT NOT NULL
+        );
+    """
+    cur.execute(create_images_tbl_query)
+
+    con.commit()
+    con.close()
+    return
 
 def add_apod_to_cache(apod_date):
     """Adds the APOD image from a specified date to the image cache.

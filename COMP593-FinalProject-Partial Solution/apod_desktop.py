@@ -84,9 +84,9 @@ def init_apod_cache():
         os.makedirs(image_cache_dir, exist_ok=True)
 
     # Create the DB if it does not already exist
-    con = sqlite3.connect(image_cache_db)
+    db_cxn = sqlite3.connect(image_cache_db)
 
-    cur = con.cursor()
+    db_cursor = db_cxn.cursor()
 
     create_images_tbl_query = """
         CREATE TABLE IF NOT EXISTS image_data
@@ -94,14 +94,14 @@ def init_apod_cache():
             id          INTEGER PRIMARY KEY,
             title       TEXT NOT NULL,
             explanation TEXT NOT NULL,
-            path        TEXT NOT NULL,
+            file_path   TEXT NOT NULL,
             sha256      TEXT NOT NULL
         );
     """
-    cur.execute(create_images_tbl_query)
+    db_cursor.execute(create_images_tbl_query)
 
-    con.commit()
-    con.close()
+    db_cxn.commit()
+    db_cxn.close()
     return
 
 def add_apod_to_cache(apod_date):
@@ -127,10 +127,9 @@ def add_apod_to_cache(apod_date):
     print("APOD title:", apod_title)
 
     # Download the APOD image
+    # TODO: four lines of code expected here
     apod_url = apod_info['url']
     apod_image_data = requests.get(apod_url)
-    
-    # four lines of code expected here
 
     # Check whether the APOD already exists in the image cache
     apod_sha256 = hashlib.sha256(apod_image_data).hexdigest()
@@ -162,8 +161,8 @@ def add_apod_to_db(title, explanation, file_path, sha256):
     """
     print("Adding APOD to image cache DB...", end='')
     try:
-        #Add line one
-        # Add line two
+        db_cxn = sqlite3.connect(image_cache_db)
+        db_cursor = db_cxn.cursor()
         insert_image_query = """
             INSERT INTO image_data 
             (title, explanation, file_path, sha256)

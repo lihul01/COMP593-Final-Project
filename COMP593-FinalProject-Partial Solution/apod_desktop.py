@@ -19,6 +19,7 @@ import re
 import image_lib
 import apod_api
 import sys
+import requests
 
 # Full paths of the image cache folder and database
 # - The image cache directory is a subdirectory of the specified parent directory.
@@ -90,11 +91,11 @@ def init_apod_cache():
     create_images_tbl_query = """
         CREATE TABLE IF NOT EXISTS image_data
         (
-            primary_key INTEGER PRIMARY KEY,
-            APOD_title  TEXT NOT NULL,
-            APOD_expl   TEXT NOT NULL,
-            Path        TEXT NOT NULL,
-            Hash        TEXT NOT NULL
+            id          INTEGER PRIMARY KEY,
+            title       TEXT NOT NULL,
+            explanation TEXT NOT NULL,
+            path        TEXT NOT NULL,
+            sha256      TEXT NOT NULL
         );
     """
     cur.execute(create_images_tbl_query)
@@ -126,6 +127,9 @@ def add_apod_to_cache(apod_date):
     print("APOD title:", apod_title)
 
     # Download the APOD image
+    apod_url = apod_info['url']
+    apod_image_data = requests.get(apod_url)
+    
     # four lines of code expected here
 
     # Check whether the APOD already exists in the image cache
@@ -238,7 +242,7 @@ def determine_apod_file_path(image_title, image_url):
     file_name = file_name.replace(' ', '_')
     
     # Remove any non-word characters
-    file_name = #Complete this
+    file_name = ''.join([i for i in file_name if not i.isdigit()])
     
     # Append the extension to the file name
     file_name = '.'.join((file_name, file_ext))

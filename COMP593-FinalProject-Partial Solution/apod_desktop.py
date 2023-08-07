@@ -64,7 +64,7 @@ def get_apod_date():
             sys.exit('Script execution aborted')
 
         # Validate that the date is within range
-        MIN_APOD_DATE = # Complete this
+        MIN_APOD_DATE = '1995-07-16'
         if apod_date < MIN_APOD_DATE:
             print(f'Error: Date too far in past; First APOD was on {MIN_APOD_DATE.isoformat()}')
             sys.exit('Script execution aborted')
@@ -72,8 +72,8 @@ def get_apod_date():
             print('Error: APOD date cannot be in the future')
             sys.exit('Script execution aborted')
     else:
-        # No date parameter has been provided, so use today's date
-        apod_date = # Fill in here
+        today = date.today()
+        apod_date = today.fromisoformat()
     
     return apod_date
 

@@ -78,15 +78,11 @@ def get_apod_date():
     return apod_date
 
 def init_apod_cache():
-    """Initializes the image cache by:
-    - Creating the image cache directory if it does not already exist,
-    - Creating the image cache database if it does not already exist.
-    """
-    # Create the image cache directory if it does not already exist
-    # You should know what to do here as demonstrated in previous labs
+    # Creates the image cache directory if it does not already exist
+    if not image_cache_dir.exists():
+        os.makedirs(image_cache_dir, exist_ok=True)
 
     # Create the DB if it does not already exist
-    #Complete this with the correct instructions
     con = sqlite3.connect(image_cache_db)
 
     cur = con.cursor()
@@ -97,8 +93,8 @@ def init_apod_cache():
             primary_key INTEGER PRIMARY KEY,
             APOD_title  TEXT NOT NULL,
             APOD_expl   TEXT NOT NULL,
-            PATH        TEXT NOT NULL,
-            HASH        TEXT NOT NULL
+            Path        TEXT NOT NULL,
+            Hash        TEXT NOT NULL
         );
     """
     cur.execute(create_images_tbl_query)

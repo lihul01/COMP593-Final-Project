@@ -18,6 +18,7 @@ import os
 import re
 import image_lib
 import apod_api
+from apod_api import get_apod_image_url
 import sys
 import requests
 
@@ -126,7 +127,7 @@ def add_apod_to_cache(apod_date):
     print("APOD title:", apod_title)
 
     # Download the APOD image
-    apod_url = apod_info['hdurl']
+    apod_url = get_apod_image_url(apod_info)
     apod_image_data = requests.get(apod_url).content
 
     # Check whether the APOD already exists in the image cache

@@ -87,7 +87,7 @@ def init_apod_cache():
 
     # Create the DB if it does not already exist
     #Complete this with the correct instructions
-    con = sqlite3.connect('NASA.db')
+    con = sqlite3.connect(image_cache_db)
 
     cur = con.cursor()
 

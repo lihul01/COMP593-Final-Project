@@ -128,7 +128,7 @@ def add_apod_to_cache(apod_date):
 
     # Download the APOD image
     apod_url = apod_info['url']
-    apod_image_data = requests.get(apod_url)
+    apod_image_data = requests.get(apod_url).content
 
     # Check whether the APOD already exists in the image cache
     apod_sha256 = hashlib.sha256(apod_image_data).hexdigest()
@@ -192,9 +192,9 @@ def get_apod_id_from_db(image_sha256):
 
     # Query DB for image with same hash value as image in response message
     image_query = f"""
-        SELECT id,
+        SELECT id
         FROM image_data
-        WHERE sha256 = {image_cache_db.upper()};
+        WHERE sha256 = '{image_sha256.upper()}';
     """
     db_cursor.execute(image_query)
     query_results = db_cursor.fetchone()
@@ -268,7 +268,7 @@ def get_apod_info(image_id):
     db_cxn = sqlite3.connect(image_cache_db)
     db_cursor = db_cxn.cursor()
     image_path_query = f"""
-        SELECT file_path
+        SELECT title, explanation, file_path
         FROM image_data
         WHERE id = {image_id};
     """
@@ -278,9 +278,9 @@ def get_apod_info(image_id):
 
     # Put information into a dictionary
     apod_info = {
-        'title': f'{query_result[1]}',
-        'explanation' : f'{query_result[2]}',
-        'file_path' : f'{query_result[3]}'
+        'title': f'{query_result[0]}',
+        'explanation' : f'{query_result[1]}',
+        'file_path' : f'{query_result[2]}'
     }
 
     return apod_info

@@ -65,7 +65,6 @@ def get_apod_date():
             sys.exit('Script execution aborted')
 
         # Validate that the date is within range
-        # TODO: FIX MIN DATE
         MIN_APOD_DATE = date(1995, 7, 16)
         if apod_date < MIN_APOD_DATE:
             print(f'Error: Date too far in past; First APOD was on {MIN_APOD_DATE.isoformat()}')
@@ -127,7 +126,7 @@ def add_apod_to_cache(apod_date):
     print("APOD title:", apod_title)
 
     # Download the APOD image
-    apod_url = apod_info['url']
+    apod_url = apod_info['hdurl']
     apod_image_data = requests.get(apod_url).content
 
     # Check whether the APOD already exists in the image cache
